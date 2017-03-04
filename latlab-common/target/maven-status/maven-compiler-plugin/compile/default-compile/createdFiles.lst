@@ -1,6 +1,7 @@
 com\latlab\common\jpa\QryHelper$DDML.class
 com\latlab\common\model\DateTimeRange.class
 com\latlab\common\email\EmailProcessor.class
+com\stately\common\security\DesEncrypter.class
 com\latlab\common\email\GmailConfiguration.class
 com\latlab\common\reflection\JavaClassField.class
 com\latlab\common\jpa\CrudController.class
@@ -15,6 +16,7 @@ com\latlab\common\formating\HtmlTable.class
 com\stately\common\utils\WindowsReqistry.class
 com\stately\common\utils\TaskResponse.class
 com\latlab\common\model\DateChooser.class
+com\stately\common\security\LoginInfo.class
 com\latlab\common\formating\NumberToWords$Figures.class
 com\latlab\common\utils\LunarUtils.class
 com\latlab\common\constants\Role.class
@@ -38,19 +40,24 @@ com\latlab\common\constants\Region.class
 com\latlab\common\jpa\QryHelper$QrySearchOrder.class
 com\latlab\common\formating\NumberToWords.class
 com\latlab\common\constants\DataType.class
+com\stately\common\security\SecurityHash.class
 com\latlab\common\jpa\CommonModel.class
 com\latlab\common\constants\DebitCredit.class
 com\latlab\common\reporting\ReportDesignFileType.class
 com\stately\common\utils\WinRegistry.class
+com\stately\common\security\BASE64Decoder.class
 com\latlab\common\constants\EnumResolvable.class
 com\latlab\common\jpa\JpaUtils.class
 com\latlab\common\constants\PublicPrivate.class
 com\latlab\common\jpa\QryHelper$FieldType.class
 com\latlab\common\reporting\ReportOutputFileType.class
+com\stately\common\security\SecurityHash$HashAlgorithm.class
 com\latlab\common\constants\FormOfPayment.class
 com\latlab\common\jpa\QryHelper$IncludeCriteria.class
+com\stately\common\security\SecurityHash$1.class
 com\latlab\common\constants\ActiveInactiveStatus.class
 com\latlab\common\utils\RandomUtils.class
+com\stately\common\security\BASE64Decoder$StringWrapper.class
 com\latlab\common\model\PeriodUtils.class
 com\latlab\common\constants\Frequency.class
 com\latlab\common\constants\CurrencyEnum.class
@@ -68,6 +75,7 @@ com\latlab\common\formating\SentenceCases.class
 com\latlab\common\jpa\JdbcUtil.class
 com\latlab\common\constants\Gender.class
 com\latlab\common\jpa\Enviroment.class
+com\latlab\common\jpa\TimeUnit.class
 com\latlab\common\reporting\JasperReportManager$1.class
 com\latlab\common\constants\EducationalLevel.class
 com\latlab\common\constants\MaritalStatus.class
@@ -80,6 +88,7 @@ com\latlab\common\utils\MonthPeriod.class
 com\latlab\common\reflection\JavaMethod.class
 com\latlab\common\jpa\QryHelper$ParamQry.class
 com\latlab\common\model\YearQuarter.class
+com\latlab\common\jpa\DateRecord.class
 com\latlab\common\model\Period.class
 com\latlab\common\constants\Title.class
 com\latlab\common\jpa\QryHelper$QryOrder.class
@@ -110,3 +119,4 @@ com\latlab\common\jpa\JpaController.class
 com\latlab\common\model\DateRange$1.class
 com\latlab\common\constants\Religion.class
 com\stately\common\model\SampleModel.class
+com\stately\common\security\BASE64Encoder.class

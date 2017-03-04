@@ -167,7 +167,7 @@ public class CrudController implements Serializable {
                 }
             }
             if (model.getId() == null) {
-                model.setId(UUID.randomUUID().toString());
+                model.setId(UUID.randomUUID().toString().replace("-", ""));
                 em.persist(model);
 
             } else if (find(model.getClass(), model.getId()) != null) {
