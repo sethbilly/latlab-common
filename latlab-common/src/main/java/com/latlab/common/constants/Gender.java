@@ -14,8 +14,8 @@ import java.util.List;
  */
 public enum Gender
 {
-    MALE("M","Male","Mr. "),
-    FEMALE("F","Female","Mrs. "),
+    MALE("M","Male","Male"),
+    FEMALE("F","Female","Female"),
     NA("NA","N/A",""),
     BOTH_GENDER("B","Both", ""),
     INSTITUTION("I","Institution","");
@@ -63,8 +63,11 @@ public enum Gender
         return title;
     }
     
+    public String getName()
+    {
+        return name;
+    }
     
-
     @Override
     public String toString()
     {

@@ -30,6 +30,7 @@ public class TimeUnit extends CommonModel implements Serializable {
     @Enumerated(EnumType.STRING)
     private Week valueWeek;
     
+    public static final String _valueQuarter = "valueQuarter";
     @Column(name = "value_quarter", length = 20)
     @Enumerated(EnumType.STRING)
     private Quarter valueQuarter;

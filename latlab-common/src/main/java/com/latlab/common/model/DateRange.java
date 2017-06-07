@@ -475,5 +475,5 @@ public class DateRange implements Serializable {
     public void setYear(int year) {
         this.year = year;
     }
-
+    
 }

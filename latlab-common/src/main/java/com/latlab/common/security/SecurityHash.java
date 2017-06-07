@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.stately.common.security;
+package com.latlab.common.security;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -204,7 +204,7 @@ private static String convertToHex(byte[] data) {
     
     public static void main(String [] args)
     {
-        System.out.println(SecurityHash.getInstance().shaHash("36a551"));
+        System.out.println(SecurityHash.getInstance().shaHash("precious"));
     }
     
 }
