@@ -157,6 +157,7 @@ public class CrudController implements Serializable {
             model.setLastModifiedDate(new Date());
             if (currentUserID != null) {
                 model.setLastModifiedBy(currentUserID);
+                model.setCreatedBy(currentUserID);
             }
 
             model.setUpdated(false);
