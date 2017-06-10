@@ -37,6 +37,10 @@ public class CommonModel implements Serializable
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate = new Date();
+    
+    public static final String _createdBy = "createdBy";
+    @Column(name = "created_by")
+    private String createdBy;
 
     public static final String _lastModifiedBy = "lastModifiedBy";
     @Column(name = "last_modified_by")
@@ -95,6 +99,14 @@ public class CommonModel implements Serializable
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    
     public Date getLastModifiedDate()
     {
         return lastModifiedDate;
