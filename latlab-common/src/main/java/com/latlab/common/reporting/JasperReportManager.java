@@ -37,13 +37,11 @@ public class JasperReportManager implements Serializable {
     private final Map<String, Object> reportParamenters = new HashMap<>();
     private final Map<String, JasperReportManager> reportInstances = new HashMap<>();
     private ReportOutputFileType reportOutputFileType = ReportOutputFileType.PDF;
-    ;
     private ReportDesignFileType reportFileType;
     private ReportOutputEnvironment reportOutputEnvironment;
     private JasperPrint jasperPrint;
     private JRBeanCollectionDataSource jrCollectionDataSource = null;
     private String jasperFile;
-//    private String outputReportFile;
     private String reportOutputDirectory;
     private Collection reportDataList;
 
@@ -111,22 +109,11 @@ public class JasperReportManager implements Serializable {
         HttpServletResponse response = getServeltResponse();
 
         response.setContentType("application/pdf");
-
-//         if (pdf == null) {
-//            res.setContentType("text/plain");
-//            res.getWriter().write("No document available.");
-//        } else {
-//            res.setContentType("application/pdf");
-//            res.setHeader("Content-Disposition", "inline");
-//            res.setHeader("Accept-Ranges", "bytes");
         HttpServletRequest request = getServeltRequest();
-
-//        response.setContentType(reportOutput.getContentType());
         if (reportOutputFileType == null) {
             LOGGER.info("Report outfile type is not set, PDF will be assumed");
             reportOutputFileType = ReportOutputFileType.PDF;
         }
-
         try {
             switch (reportOutputFileType) {
                 case PDF:
@@ -167,11 +154,6 @@ public class JasperReportManager implements Serializable {
     private void desktopEnviroment() {
 
         JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
-
-//         if(reportTitle == null)
-//         {
-//             reportTitle = (String) reportParamenters.get(REPORT_TITLE);
-//         }
         try {
             reportTitle = (String) reportParamenters.get(REPORT_TITLE);
         } catch (Exception e) {
