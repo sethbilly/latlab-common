@@ -5,6 +5,7 @@
 package com.latlab.common.utils;
 
 import com.latlab.common.constants.Month;
+import com.latlab.common.constants.Quarter;
 import com.latlab.common.formating.NumberFormattingUtils;
 import com.latlab.common.model.DateRange;
 import java.text.DateFormat;
@@ -25,18 +26,10 @@ import org.joda.time.Interval;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-/**
- *
- * @author Edwin
- */
+
 public class DateTimeUtils {
 
-//    private static SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM");
-//    private static SimpleDateFormat fullDateFormat = new SimpleDateFormat("EEE, d MMM, yyyy");
-//    private static SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a ");
-//    private static SimpleDateFormat monthFormat = new SimpleDateFormat("MMM, yyyy");
-//    private static SimpleDateFormat monthFormat = new SimpleDateFormat("MMM, yyyy");
-    private static Date toDay = new Date();
+  private static Date toDay = new Date();
 //    private static Calendar cal = Calendar.getInstance();
     private static SimpleDateFormat sdf = new SimpleDateFormat();
 //    private static NumberFormat nf = NumberFormat.getInstance();
@@ -341,50 +334,50 @@ public class DateTimeUtils {
 
     }
 
-    public static Date getWorkingDaysFromDate2(Date date, int numberOfWorkingDays, List<Date> exclusionDates) {
-        boolean forward = true;
-
-        if (numberOfWorkingDays > 0) {
-            forward = true;
-        } else if (numberOfWorkingDays < 0) {
-            forward = false;
-        }
-
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(date);
-
-        if (exclusionDates == null) {
-            exclusionDates = Collections.EMPTY_LIST;
-        }
-//        System.out.println("holidays is  : " + exclusionDates);
-
-        while (Math.abs(numberOfWorkingDays) != 0) {
-
-//            System.out.println("running : " + numberOfWorkingDays + "  " + date);
-            if (forward) {
-                startCal.add(Calendar.DAY_OF_MONTH, 1);
-            } else {
-                startCal.add(Calendar.DAY_OF_MONTH, -1);
-            }
-
-//                System.out.println(" now is " + startCal.getTime());
-            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-                    && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                if (exclusionDates.contains(startCal.getTime()) == false) {
-                    if (forward) {
-                        numberOfWorkingDays--;
-                    } else {
-                        numberOfWorkingDays++;
-                    }
-//                        System.out.println(" heree.....");
-                }
-
-            }
-        }
-
-        return startCal.getTime();
-
-    }
+//    public static Date getWorkingDaysFromDate2(Date date, int numberOfWorkingDays, List<Date> exclusionDates) {
+//        boolean forward = true;
+//
+//        if (numberOfWorkingDays > 0) {
+//            forward = true;
+//        } else if (numberOfWorkingDays < 0) {
+//            forward = false;
+//        }
+//
+//        Calendar startCal = Calendar.getInstance();
+//        startCal.setTime(date);
+//
+//        if (exclusionDates == null) {
+//            exclusionDates = Collections.EMPTY_LIST;
+//        }
+////        System.out.println("holidays is  : " + exclusionDates);
+//
+//        while (Math.abs(numberOfWorkingDays) != 0) {
+//
+////            System.out.println("running : " + numberOfWorkingDays + "  " + date);
+//            if (forward) {
+//                startCal.add(Calendar.DAY_OF_MONTH, 1);
+//            } else {
+//                startCal.add(Calendar.DAY_OF_MONTH, -1);
+//            }
+//
+////                System.out.println(" now is " + startCal.getTime());
+//            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+//                    && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+//                if (exclusionDates.contains(startCal.getTime()) == false) {
+//                    if (forward) {
+//                        numberOfWorkingDays--;
+//                    } else {
+//                        numberOfWorkingDays++;
+//                    }
+////                        System.out.println(" heree.....");
+//                }
+//
+//            }
+//        }
+//
+//        return startCal.getTime();
+//
+//    }
 
     /**
      * @param date Date to parse. The pattern to used .
@@ -425,10 +418,8 @@ public class DateTimeUtils {
         return Integer.parseInt(sdf.format(new Date()));
     }
 
-    public static int getYearInDate(Date date) 
-    {
-        if(date == null)
-        {
+    public static int getYearInDate(Date date) {
+        if (date == null) {
             return -1;
         }
         Calendar calender = Calendar.getInstance();
@@ -436,13 +427,11 @@ public class DateTimeUtils {
         return calender.get(Calendar.YEAR);
     }
 
-    public static Date getBeginOfYearDate(Date date) 
-    {
-        if(date == null)
-        {
+    public static Date getBeginOfYearDate(Date date) {
+        if (date == null) {
             return null;
         }
-        
+
         Calendar calender = Calendar.getInstance();
         calender.setTime(date);
         calender.set(Calendar.MONTH, 0);
@@ -450,10 +439,8 @@ public class DateTimeUtils {
         return calender.getTime();
     }
 
-    public static int getMonthInDate(Date date) 
-    {
-        if(date == null)
-        {
+    public static int getMonthInDate(Date date) {
+        if (date == null) {
             return -1;
         }
         Calendar calender = Calendar.getInstance();
@@ -461,10 +448,8 @@ public class DateTimeUtils {
         return calender.get(Calendar.MONTH) + 1;
     }
 
-    public static int getDayInDate(Date date) 
-    {
-        if(date == null)
-        {
+    public static int getDayInDate(Date date) {
+        if (date == null) {
             return -1;
         }
         Calendar calender = Calendar.getInstance();
@@ -791,7 +776,9 @@ public class DateTimeUtils {
             return "";
         }
 
-        Interval interval = new Interval(d1.getTime(), d2.getTime());
+        try
+        {
+            Interval interval = new Interval(d1.getTime(), d2.getTime());
         org.joda.time.Period period = interval.toPeriod();
 
         PeriodFormatter dhm = new PeriodFormatterBuilder()
@@ -810,6 +797,12 @@ public class DateTimeUtils {
                 .toFormatter();
 
         return period.toString(dhm);
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        return "";
     }
 
     public static String durationToDaysHoursExpression(Date d1, Date d2) {
@@ -842,32 +835,82 @@ public class DateTimeUtils {
         return datesToDurationExpression(date1, cal.getTime());
     }
 
-    public static void main(String[] args) {
-        System.out.println("stating ...");
+    public static int getAge(Date dateOfBirth) {
 
-        System.out.println(DateTimeUtils.getMonthEndingDates(2014, 2014));
-
-        Date date1 = parseDate("31122015", "ddMMyyyy");
-        Date date2 = parseDate("06012016", "ddMMyyyy");
-
-        System.out.println(getHourDifference(date1, date2));
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date1);
-//        
-//        System.out.println("week is ... " + calendar.get(Calendar.WEEK_OF_MONTH));
-//        System.out.println("week is ... " + calendar.get(Calendar.WEEK_OF_YEAR));
-//
-//        //int days = new Da
-//        System.out.println("expression :" + datesToYearsMonthDaysShortExp(date1, date2));
+        int years = 0;
         try {
-            //        firstSundayOfMonth(2010, 2012);
-            //        System.out.println(increaseDate(new Date(), -1));
-//            System.out.println("LAST DATE : " + isEndOfMonth(new Date()));
+            if (null == dateOfBirth) {
+                dateOfBirth = new Date();
+            }
+            Calendar todayCalender = new GregorianCalendar();
+            todayCalender.setTime(new Date());
+            Calendar dateOfBirthCalendar = Calendar.getInstance();
+            dateOfBirthCalendar.setTime(dateOfBirth);
 
-//            List<MonthPeriod> dateRangesList = getMonthPeriodsByYear(DateTimeUtils.getCurrentYear());
-            int diff = getDayDifference(date1, date2);
-            System.out.println(diff);
+            years = todayCalender.get(Calendar.YEAR) - dateOfBirthCalendar.get(Calendar.YEAR);
+            if ((dateOfBirthCalendar.get(Calendar.MONTH) > todayCalender.get(Calendar.MONTH))
+                    || (dateOfBirthCalendar.get(Calendar.MONTH) == todayCalender.get(Calendar.MONTH) && dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH) > todayCalender
+                    .get(Calendar.DAY_OF_MONTH))) {
+                years--;
+            }
 
+            return years;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
+//    public static int getAge(Date dateOfBirth) {
+//
+//        int years = 0;
+//        try {
+//            if (null == dateOfBirth) {
+//                dateOfBirth = new Date();
+//            }
+//            Calendar todayCalender = Calendar.getInstance();
+//            todayCalender.setTime(new Date());
+//            Calendar dateOfBirthCalendar = Calendar.getInstance();
+//            dateOfBirthCalendar.setTime(dateOfBirth);
+//            years = todayCalender.get(Calendar.YEAR) - dateOfBirthCalendar.get(Calendar.YEAR);
+//            
+//            
+//            
+//            
+//            return years;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return years;
+//
+//    }
+
+    public static Date getFirstDateOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        return calendar.getTime();
+    }
+
+    public static List<Date> getDateBetweenDates(Date startDate, Date endDate) {
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        while (calendar.getTime().before(endDate)) {
+            Date result = calendar.getTime();
+            dates.add(result);
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        return dates;
+    }
+
+    public static void main(String[] args) {
+
+        try {
+           
         } catch (Exception ex) {
             Logger.getLogger(DateTimeUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -888,6 +931,31 @@ public class DateTimeUtils {
         return cal.getTime();
     }
 
+    public static Date getQuarterLastMonthDate(Quarter tradeQuarter, int tradeYear) {
+
+        Date date = new Date();
+        switch (tradeQuarter) {
+            case FIRST_QUARTER:
+                date = DateTimeUtils.getDate(tradeYear, 03, 31);
+                break;
+            case SECOND_QUARTER:
+                date = DateTimeUtils.getDate(tradeYear, 06, 31);
+                break;
+            case THIRD_QUARTER:
+                date = DateTimeUtils.getDate(tradeYear, 9, 31);
+                break;
+            case FOURTH_QUARTER:
+                date = DateTimeUtils.getDate(tradeYear, 12, 31);
+                break;
+            default:
+                break;
+        }
+
+        String dateString = DateTimeUtils.formatDate(date, DateTimeUtils.SIMPLE_PATTERN);
+        return DateTimeUtils.parseDate(dateString, DateTimeUtils.SIMPLE_PATTERN);
+
+    }
+
     public static final java.sql.Date addDays(int diffdays) {
         Calendar cal = new GregorianCalendar();
         cal.add(5, diffdays);
@@ -895,56 +963,50 @@ public class DateTimeUtils {
         return new java.sql.Date(cal.getTimeInMillis());
     }
 
-    public static int dayDiff(java.util.Date first, java.util.Date second) {
-        if ((first == null) || (second == null)) {
-            if ((first == null) && (second == null)) {
-                return 0;
-            }
-            if (first == null) {
-                return -1;
-            }
-            return 1;
-        }
-
-        long diff = (first.getTime() - second.getTime()) / msPerDay;
-
-        Long convertLong = new Long(diff);
-
-        return convertLong.intValue();
-    }
-
-    public static int dayDiff(java.sql.Date first, java.sql.Date second) {
-        if ((first == null) || (second == null)) {
-            if ((first == null) && (second == null)) {
-                return 0;
-            }
-            if (first == null) {
-                return -1;
-            }
-            return 1;
-        }
-
-        long diff = (first.getTime() - second.getTime()) / msPerDay;
-
-        Long convertLong = new Long(diff);
-        return convertLong.intValue();
-    }
+//    public static int dayDiff(java.util.Date first, java.util.Date second) {
+//        if ((first == null) || (second == null)) {
+//            if ((first == null) && (second == null)) {
+//                return 0;
+//            }
+//            if (first == null) {
+//                return -1;
+//            }
+//            return 1;
+//        }
+//
+//        long diff = (first.getTime() - second.getTime()) / msPerDay;
+//
+//        Long convertLong = new Long(diff);
+//
+//        return convertLong.intValue();
+//    }
+//
+//    public static int dayDiff(java.sql.Date first, java.sql.Date second) {
+//        if ((first == null) || (second == null)) {
+//            if ((first == null) && (second == null)) {
+//                return 0;
+//            }
+//            if (first == null) {
+//                return -1;
+//            }
+//            return 1;
+//        }
+//
+//        long diff = (first.getTime() - second.getTime()) / msPerDay;
+//
+//        Long convertLong = new Long(diff);
+//        return convertLong.intValue();
+//    }
 
     public static boolean equals(java.util.Date first, java.util.Date second) {
         if ((first == null) || (second == null)) {
             return (first == null) && (second == null);
         }
 
-        return dayDiff(first, second) == 0;
+        return getDayDifference(first, second) == 0;
     }
 
-    public static boolean equals(java.sql.Date first, java.sql.Date second) {
-        if ((first == null) || (second == null)) {
-            return (first == null) && (second == null);
-        }
-
-        return dayDiff(first, second) == 0;
-    }
+    
 
     public static int getMonth(java.util.Date date) {
         Calendar cal = new GregorianCalendar();
