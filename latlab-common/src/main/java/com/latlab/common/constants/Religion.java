@@ -9,69 +9,40 @@ package com.latlab.common.constants;
  *
  * @author edwin
  */
-public enum Religion
+public enum Religion implements EnumResolvable
 {
 
     CHRISTIAN("Christian","CH"),
-    MOSLEM("Moslem","MS"),
-    TRADITIONALIST("TraditionalList","TD"),
+    MOSLEM("Islam","MS"),
+    TRADITIONALIST("Traditionalist","TD"),
     OTHER("Other","OT");
-
     
+    private String label, code;
 
-    private String regionName;
-    private String regionCode;
-
-    private Religion(String regionName, String regionCode)
+    private Religion(String label, String code)
     {
-        this.regionName = regionName;
-        this.regionCode = regionCode;
+        this.label = label;
+        this.code = code;
     }
 
-    public String getRegionCode()
+   
+    
+    @Override
+    public String getLabel()
     {
-        return regionCode;
+        return label;
     }
 
-    public void setRegionCode(String regionCode)
+    @Override
+    public String getCode()
     {
-        this.regionCode = regionCode;
-    }
-
-    public String getRegionName()
-    {
-        return regionName;
-    }
-
-    public void setRegionName(String regionName)
-    {
-        this.regionName = regionName;
+        return code;
     }
 
     @Override
     public String toString()
     {
-        return regionName;
-    }
-
-
-    public static Religion getRegion(String regionCode)
-    {
-        if(regionCode == null)
-            return null;
-
-        Religion[] allRegions = Religion.values();
-
-        for (int i = 0; i < allRegions.length; i++)
-        {
-            Religion region = allRegions[i];
-
-            if(region.getRegionCode().equalsIgnoreCase(regionCode))
-                return region;
-        }
-
-        return null;
+        return label;
     }
     
-
 }
