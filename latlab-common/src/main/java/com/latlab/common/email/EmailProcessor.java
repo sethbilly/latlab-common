@@ -28,6 +28,7 @@ public class EmailProcessor {
 
     private EmailSetupConfig emailCredential;
     private String subject;
+    public static boolean SIMULATED_SENDING = false;
 
     public EmailProcessor() {
     }

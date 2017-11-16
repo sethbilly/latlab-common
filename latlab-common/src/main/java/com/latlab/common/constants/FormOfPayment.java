@@ -15,6 +15,7 @@ public enum FormOfPayment {
     CHEQUE("Cheque", "CHQ"),
     BANK_TRANSFER("Bank Transfer", "BT"),
     CARD_PAYMENT("Card Payment", "Card Payment"),
+    PAY_PAL("Pay Pal", "PAY_PAL"),
     OTHER("Others", "Other");
 
     private String initials;
