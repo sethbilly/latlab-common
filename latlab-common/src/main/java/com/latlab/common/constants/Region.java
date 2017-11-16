@@ -7,15 +7,15 @@ package com.latlab.common.constants;
 public enum Region {
 
     GREATER_ACCRA("Greater Accra", "GA"),
-    CENTRAL_REGION("Central Region", "CR"),
-    ASHANTI_REGION("Ashanti Region", "AR"),
-    BRONG_AHAFO_REGION("Brong Ahafo Region", "BA"),
-    NORTHERN_REGION("Northern Region", "NR"),
-    UPPER_EAST_REGION("Upper East Region", "UE"),
-    UPPER_WEST_REGION("Upper West Region", "UW"),
-    EASTERN_REGION("Eastern Region", "ER"),
-    WESTERN_REGION("Western Region", "WR"),
-    VOLTA_REGION("Volta Region", "VR");
+    CENTRAL("Central", "CR"),
+    ASHANTI("Ashanti", "AR"),
+    BRONG_AHAFO("Brong Ahafo", "BA"),
+    NORTHERN("Northern", "NR"),
+    UPPER_EAST("Upper East", "UE"),
+    UPPER_WEST("Upper West", "UW"),
+    EASTERN("Eastern", "ER"),
+    WESTERN("Western", "WR"),
+    VOLTA("Volta", "VR");
 
     private String regionName;
     private String regionCode;
