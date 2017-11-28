@@ -1,15 +1,20 @@
 package com.latlab.common.constants;
 
+import java.io.Serializable;
+
 /**
  *
  * @author edwin
  */
-public enum FormOfPayment {
+public enum FormOfPayment implements Serializable{
 
-    MTN_MOBILE_MONEY("MTN Mobile Money Wallet", "MTN"),
-    MOBILE_MONEY("Mobile Money", "MM"),
-    VISA_MASTER_CARD("Visa Master Card", "Visa/Master Card"),
-    BANK_PAYMENT("Pay at Bank / MTN Branch ", "BO"),
+    MTN_MOBILE_MONEY("MTN Mobile Money", "MTN"),
+    AIRTEL_MONEY("Airtel Money", "Airtel Money"),
+    TIGO_CASH("Tigo Cash", "Tigo Cash"),
+    VODAFONE_CASH("Vodafone Cash", "Vodafon Cash"),
+    MASTER_CARD("Master Card", "Master Card"),
+    VISA_CARD("Visa Card", "Visa Card"),
+    BANK_PAYMENT("Bank", "Bank"),
     BANKERS_DRAFT("Bankers Draft", "BD"),
     CASH("Cash", "CH"),
     CHEQUE("Cheque", "CHQ"),
