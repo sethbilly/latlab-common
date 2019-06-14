@@ -5,8 +5,8 @@
  */
 package com.latlab.common.jpa;
 
+import com.latlab.common.dateutils.DateRange;
 import com.latlab.common.formating.ObjectValue;
-import com.latlab.common.model.DateRange;
 import com.latlab.common.model.NumberRange;
 import java.io.Serializable;
 import java.util.Arrays;

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -22,16 +24,18 @@ import javax.persistence.Transient;
  * @author ICSGH-BILLY
  */
 @MappedSuperclass
-public class CommonModel implements Serializable
+public class CommonEntityModel implements Serializable
 {
 
+    int left, right = 0;
     private static final long serialVersionUID = 1L;
 
     public static final String _id = "id";
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     @Basic(optional = false)
-    private String id;
+    private Long id;
 
     public static final String _createdDate = "createdDate";
     @Column(name = "created_date")
@@ -50,14 +54,11 @@ public class CommonModel implements Serializable
     @Column(name = "last_modified_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModifiedDate = new Date();
-
-    public static final String _updated = "updated";
-    @Column(name = "updated")
-    private boolean updated;
     
     public static final String _deleted = "deleted";
-    @Column(name = "deleted")
-    private boolean deleted;
+    @Column(name = "deleted_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt = null;
 
     @Transient
     private boolean selected = false;
@@ -65,16 +66,16 @@ public class CommonModel implements Serializable
     @Transient
     private int counter = 0;
 
-    public CommonModel()
+    public CommonEntityModel()
     {
     }
 
-    public String getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(String id)
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -117,26 +118,15 @@ public class CommonModel implements Serializable
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public boolean isDeleted()
-    {
-        return deleted;
+    public Date getDeletedAt() {
+        return deletedAt;
     }
 
-    public void setDeleted(boolean deleted)
-    {
-        this.deleted = deleted;
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
-    public boolean isUpdated()
-    {
-        return updated;
-    }
-
-    public void setUpdated(boolean updated)
-    {
-        this.updated = updated;
-    }
-
+    
     public boolean isSelected()
     {
         return selected;
@@ -159,7 +149,7 @@ public class CommonModel implements Serializable
 
     public String getModelInfo()
     {
-        return "CommonModel{" + "createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", lastModifiedBy=" + lastModifiedBy + ", updated=" + updated + ", deleted=" + deleted + '}';
+        return "CommonModel{" + "createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", lastModifiedBy=" + lastModifiedBy + ", deletedAt=" + deletedAt + '}';
     }
 
     public String toFullInsertSQL()
@@ -194,7 +184,7 @@ public class CommonModel implements Serializable
 
     public String getTableName()
     {
-        return CommonModel.class.getSimpleName();
+        return CommonEntityModel.class.getSimpleName();
     }
 
     public String updateSql()
@@ -207,10 +197,10 @@ public class CommonModel implements Serializable
         return null;
     }
 
-    public static void countItems(List<? extends CommonModel> itemsList)
+    public static void countItems(List<? extends CommonEntityModel> itemsList)
     {
         int count = 0;
-        for (CommonModel item : itemsList)
+        for (CommonEntityModel item : itemsList)
         {
             item.setCounter(++count);
         }
@@ -239,7 +229,7 @@ public class CommonModel implements Serializable
         {
             return false;
         }
-        final CommonModel other = (CommonModel) obj;
+        final CommonEntityModel other = (CommonEntityModel) obj;
         if (!Objects.equals(this.id, other.id))
         {
             return false;

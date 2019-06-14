@@ -91,7 +91,7 @@ public class CrudController implements Serializable {
 
         return Collections.EMPTY_LIST;
     }
-    
+
     public List findAll(Class t, boolean deleted) {
         try {
             String qry = "SELECT e FROM " + t.getSimpleName() + " e "
@@ -139,7 +139,7 @@ public class CrudController implements Serializable {
     public List recentlyModified(Class clazz, int maxResult) {
         try {
             QryHelper builder = new QryHelper(em, clazz);
-            builder.orderByDesc(CommonModel._lastModifiedDate);
+            builder.orderByDesc(CommonEntityModel._lastModifiedDate);
 
             return builder.buildQry().setFirstResult(0).setMaxResults(maxResult).getResultList();
         } catch (Exception e) {
@@ -148,7 +148,7 @@ public class CrudController implements Serializable {
         return Collections.EMPTY_LIST;
     }
 
-    public <T> T save(CommonModel model) {
+    public <T> T save(CommonEntityModel model) {
 
         try {
             if (model.getCreatedDate() == null) {
@@ -160,15 +160,12 @@ public class CrudController implements Serializable {
                 model.setCreatedBy(currentUserID);
             }
 
-            model.setUpdated(false);
-
             if (enviroment == Enviroment.JAVA_SE) {
                 if (em.getTransaction().isActive() == false) {
                     em.getTransaction().begin();
                 }
             }
             if (model.getId() == null) {
-                model.setId(UUID.randomUUID().toString().replace("-", ""));
                 em.persist(model);
 
             } else if (find(model.getClass(), model.getId()) != null) {
@@ -209,16 +206,14 @@ public class CrudController implements Serializable {
         return (T) object;
     }
 
-    public boolean update(CommonModel model) {
+    public boolean update(CommonEntityModel model) {
         try {
             if (model.getCreatedDate() == null) {
                 model.setCreatedDate(new Date());
             }
             model.setLastModifiedDate(new Date());
-            model.setDeleted(false);
-            model.setUpdated(true);
 
-            CommonModel entityModel = saveEntity(model);
+            CommonEntityModel entityModel = saveEntity(model);
 
             if (entityModel != null) {
                 return true;
@@ -263,7 +258,7 @@ public class CrudController implements Serializable {
         return false;
     }
 
-    public boolean delete(CommonModel model, boolean permanent) {
+    public boolean delete(CommonEntityModel model) {
         try {
             if (enviroment == Enviroment.JAVA_SE) {
                 if (em.getTransaction().isActive() == false) {
@@ -271,23 +266,13 @@ public class CrudController implements Serializable {
                 }
             }
 
-            if (permanent == true) {
-                if (model.getId() != null) {
-                    em.remove(em.merge(model));
+            model.setLastModifiedDate(new Date());
 
-                    LOGGER.log(Level.INFO, " Deleted : {0}", model);
-                }
+            save(model);
 
-            } else if (permanent == false) {
-                model.setLastModifiedDate(new Date());
-
-                save(model);
-
-                model.setLastModifiedBy(currentUserID);
-                model.setDeleted(true);
-                model.setUpdated(false);
-                em.merge(model);
-            }
+            model.setLastModifiedBy(currentUserID);
+            model.setDeletedAt(new Date());
+            em.merge(model);
 
             em.flush();
 

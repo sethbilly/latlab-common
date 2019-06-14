@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.latlab.common.utils;
+package com.latlab.common.dateutils;
 
 import com.latlab.common.constants.Month;
-import com.latlab.common.model.DateRange;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;

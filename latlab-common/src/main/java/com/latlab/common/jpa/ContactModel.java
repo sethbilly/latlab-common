@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
  * @author ICSGH-BILLY
  */
 @MappedSuperclass
-public class ContactModel extends CommonModel
+public class ContactModel extends CommonEntityModel
 {
 
      private static final long serialVersionUID = 1L;

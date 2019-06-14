@@ -1,6 +1,6 @@
-package com.latlab.common.model;
+package com.latlab.common.dateutils;
 
-import com.latlab.common.model.DateRange;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;

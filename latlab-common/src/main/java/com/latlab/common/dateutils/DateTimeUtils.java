@@ -2,16 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.latlab.common.utils;
+package com.latlab.common.dateutils;
 
 import com.latlab.common.constants.Month;
 import com.latlab.common.constants.Quarter;
 import com.latlab.common.formating.NumberFormattingUtils;
-import com.latlab.common.model.DateRange;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -29,7 +31,12 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public class DateTimeUtils {
 
-  private static Date toDay = new Date();
+ //    private static SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM");
+//    private static SimpleDateFormat fullDateFormat = new SimpleDateFormat("EEE, d MMM, yyyy");
+//    private static SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a ");
+//    private static SimpleDateFormat monthFormat = new SimpleDateFormat("MMM, yyyy");
+//    private static SimpleDateFormat monthFormat = new SimpleDateFormat("MMM, yyyy");
+    private static Date toDay = new Date();
 //    private static Calendar cal = Calendar.getInstance();
     private static SimpleDateFormat sdf = new SimpleDateFormat();
 //    private static NumberFormat nf = NumberFormat.getInstance();
@@ -91,6 +98,23 @@ public class DateTimeUtils {
         return sdf.format(date);
     }
 
+    
+    public static LocalDate localDate(Date date) 
+    {
+        if (date == null) {
+            return null;
+        }        
+        return date.toInstant().atZone(ZoneId.systemDefault().systemDefault()).toLocalDate();
+    }
+    
+    public static Date toDate(LocalDate date) 
+    {
+        if (date == null) {
+            return null;
+        }        
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
     /**
      * @param date Date to format. The pattern to used should be a valid
      * @param pattern eg "EEEE, d MMMM, yyyy".
@@ -104,6 +128,19 @@ public class DateTimeUtils {
         sdf.applyPattern(pattern);
         sdf.getCalendar().setFirstDayOfWeek(Calendar.MONDAY);
         return sdf.format(date);
+    }
+
+    /**
+     * @param date Date to format. The pattern to used should be a valid
+     * @param pattern eg "EEEE, d MMMM, yyyy".
+     * @return formated date as String
+     */
+    public static String formatDate(LocalDate date, String pattern) {
+        if (date == null) {
+            return "";
+        }
+        
+        return DateTimeFormatter.ofPattern(pattern).format(date);
     }
 
     /**
@@ -427,7 +464,8 @@ public class DateTimeUtils {
         return calender.get(Calendar.YEAR);
     }
 
-    public static Date getBeginOfYearDate(Date date) {
+    public static Date getBeginOfYearDate(Date date) 
+    {
         if (date == null) {
             return null;
         }
@@ -437,6 +475,30 @@ public class DateTimeUtils {
         calender.set(Calendar.MONTH, 0);
         calender.set(Calendar.DAY_OF_MONTH, 1);
         return calender.getTime();
+    }
+    
+//    public static boolean isEndOfYear(Date valueDate)
+//    {
+//        LocalDate valuationDate = valueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        LocalDate lastDate = LocalDate.of(valuationDate.getYear(), java.time.Month.DECEMBER, java.time.Month.DECEMBER.maxLength());
+//
+//        if (valuationDate.equals(lastDate))
+//        {
+//            return true;
+//        }
+//
+//        return false;
+//    }
+    
+    public static boolean isBeginOfYear(Date valueDate)
+    {
+        String fistDayMonth = formatDate(valueDate, "ddMM");
+        if(fistDayMonth.equalsIgnoreCase("0101"))
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     public static int getMonthInDate(Date date) {
@@ -906,11 +968,53 @@ public class DateTimeUtils {
 
         return dates;
     }
+    
+    public static Date previousDate(Date date) 
+    {
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(date);
+        calender.add(Calendar.DATE, -1);
+        return calender.getTime();
+    }
 
     public static void main(String[] args) {
+//        System.out.println("stating ...");
 
+//        System.out.println(DateTimeUtils.getMonthEndingDates(2014, 2014));
+//        Date date1 = parseDate("31122015", "ddMMyyyy");
+//        Date date2 = parseDate("06012016", "ddMMyyyy");
+//        Date date2 = new Date(1999, 10, 10);
+//        System.out.println(getHourDifference(date1, date2));
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(date1);
+//        
+//        System.out.println("week is ... " + calendar.get(Calendar.WEEK_OF_MONTH));
+//        System.out.println("week is ... " + calendar.get(Calendar.WEEK_OF_YEAR));
+//
+//        //int days = new Da
+//        System.out.println("expression :" + datesToYearsMonthDaysShortExp(date1, date2));
         try {
-           
+            //        firstSundayOfMonth(2010, 2012);
+            //        System.out.println(increaseDate(new Date(), -1));
+//            System.out.println("LAST DATE : " + isEndOfMonth(new Date()));
+
+//            List<MonthPeriod> dateRangesList = getMonthPeriodsByYear(DateTimeUtils.getCurrentYear());
+//            int diff = getDayDifference(date1, date2);
+//            System.out.println(diff);
+//            System.out.println("AGE IS " + getAge(date2));
+//            List<Date> dates = 
+//            Date d = new Date(2017, 3, 1);
+//            Date lastDate = DateTimeUtils.getLastDateOfMonth(new Date());
+//            System.out.println("LAST DATE " + lastDate);
+//            int end = DateTimeUtils.dayDiff(lastDate, d);
+//            System.out.println("END DATE " + end);
+//            for (int i = 0; i < end; i++) {
+//                System.out.println(" DAY " + DateTimeUtils.addDaysToDate(new Date(), i));
+//            }
+//            List<Date> dates = getDateBetweenDates(getFirstDateOfMonth(new Date()), new Date());
+//            for (Date eachOne : dates) {
+//                System.out.println("DAY " + eachOne);
+//            }
         } catch (Exception ex) {
             Logger.getLogger(DateTimeUtils.class.getName()).log(Level.SEVERE, null, ex);
         }

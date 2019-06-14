@@ -4,7 +4,7 @@
  */
 package com.latlab.common.email;
 
-import com.latlab.common.jpa.CommonModel;
+import com.latlab.common.jpa.CommonEntityModel;
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author Edwin
  */
 
-public class DefaultEmailConfiguration extends CommonModel implements Serializable, EmailSetupConfig
+public class DefaultEmailConfiguration extends CommonEntityModel implements Serializable, EmailSetupConfig
 {
     private static final long serialVersionUID = 1L;
     

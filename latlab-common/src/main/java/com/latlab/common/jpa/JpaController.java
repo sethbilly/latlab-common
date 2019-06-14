@@ -66,7 +66,7 @@ public class JpaController implements Serializable {
         return Collections.EMPTY_LIST;
     }
 
-    public List findLast(Class<? extends CommonModel> t, String orderField, int numberOfRecords) {
+    public List findLast(Class<? extends CommonEntityModel> t, String orderField, int numberOfRecords) {
         try {
             String qry = "SELECT e FROM " + t.getSimpleName() + " e " + "ORDER BY  e.lastModifiedDate DESC, e." + orderField;
 
@@ -78,7 +78,7 @@ public class JpaController implements Serializable {
         return Collections.EMPTY_LIST;
     }
 
-    public List findLast(Class<? extends CommonModel> t, String field, Object objectValue, int numberOfRecords) {
+    public List findLast(Class<? extends CommonEntityModel> t, String field, Object objectValue, int numberOfRecords) {
         try {
             String qry = "SELECT e FROM " + t.getSimpleName() + " e "
                     + "WHERE e." + field + " =:val " + "ORDER BY  e.lastModifiedDate DESC";

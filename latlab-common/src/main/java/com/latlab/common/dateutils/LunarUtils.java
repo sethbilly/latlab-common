@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.latlab.common.utils;
+package com.latlab.common.dateutils;
 
 import com.latlab.common.reflection.JavaClass;
 import com.latlab.common.reflection.JavaClassField;

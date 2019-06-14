@@ -198,12 +198,9 @@ public class JasperReportManager implements Serializable {
         msg = "Report will be written to " + file.getAbsolutePath();
         Logger.getLogger(JasperReportManager.class.getName()).log(Level.INFO, msg);
 
-//        System.out.println("report output file type = " + reportOutputFileType);
         switch (reportOutputFileType) {
             case PDF:
                 try {
-//                    System.out.println("about to produce pdf file " + file.getAbsolutePath());
-//                    System.out.println("jasper print : " + jasperPrint);
                     JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
 
                     LOGGER.info("Report exported to pdf completed - " + file.getAbsolutePath());
@@ -396,19 +393,6 @@ public class JasperReportManager implements Serializable {
         this.reportTitle = reportTitle;
     }
 
-//    <?php
-//   $dir="resource/";
-//   $BASE="../";
-//
-//   $filetitle= "DOWNLOADING  file ";
-//   $file=$_GET["file"];
-//
-//    header("Content-type: application/force-download");
-//    header("Content-Transfer-Encoding: Binary");
-//    header("Content-length: ".filesize($file));
-//    header("Content-disposition: attachment; filename=\"".basename($file)."\"");
-//    readfile("$file");
-// ?>
     private void create(String files) {
         File pa = new File(files);
 

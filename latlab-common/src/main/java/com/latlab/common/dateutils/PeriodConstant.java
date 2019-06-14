@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stately.common.utils;
+package com.latlab.common.dateutils;
 
 /**
  *

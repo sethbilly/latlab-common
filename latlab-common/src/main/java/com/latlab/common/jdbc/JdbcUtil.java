@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.latlab.common.jpa;
+package com.latlab.common.jdbc;
 
+import com.latlab.common.jpa.CommonEntityModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,19 +15,23 @@ import java.util.logging.Logger;
 
 public class JdbcUtil {
 
-    public static final String oracle = "oracle.jdbc.driver.OracleDriver";
-    public static final String MySQL = "com.mysql.jdbc.Driver";
+    private static final String ORACLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private static final String MySQL_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
 
     private Connection conn = null;
 
-    public String serverName = "192.168.1.201";
-    public String portNumber = "1521";
-    public String sid = "MFUNDDB";
-    public String url = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;
-    public String username = "ISSLIVE";
-    public String password = "ISSLIVE01";
+    public String serverName = "";
+    public String portNumber = "";
+    public String sid = "";
+    public String database = "";
+   
+    public String username = "";
+    public String password = "";
 
     public String driverName;
+    
+    public DBDriver dbDriver = DBDriver.MYSQL;
 
     private static JdbcUtil connection = new JdbcUtil();
 
@@ -34,11 +39,24 @@ public class JdbcUtil {
         this.conn = connection;
     }
 
-    public JdbcUtil(String url, String username, String password) {
-        this.url = url;
+    public JdbcUtil(String username, String password) {
         this.username = username;
         this.password = password;
         init();
+    }
+    
+    public JdbcUtil(String username, String password, String sid){
+        this.username = username;
+        this.password = password;
+        this.sid = sid;
+        init();
+    }
+    
+    public JdbcUtil(String username, String password, String portNumber, String database) {
+        this.username = username;
+        this.password = password;
+        this.portNumber = portNumber;
+        this.database = database;
     }
 
     public JdbcUtil() {
@@ -61,8 +79,25 @@ public class JdbcUtil {
 
     public void init() {
         try {
-            Class.forName(driverName);
+            String url = "";
 
+            switch (dbDriver) {
+                case MYSQL:
+                    Class.forName(MySQL_DRIVER);
+                    url = "jdbc:mysql://" + serverName + ":" + portNumber + "/" + database;
+                    break;
+                case ORACLE:
+                    Class.forName(ORACLE_DRIVER);
+                    url = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;
+                    break;
+                case POSTGRES:
+                    Class.forName(POSTGRES_DRIVER);
+                    url = "jdbc:postgresql://" + serverName + ":" + portNumber + "/" + database;
+                    break;
+                default:
+                    Class.forName(MySQL_DRIVER);
+                    url = "jdbc:mysql://" + serverName + ":" + portNumber + "/" + database;
+            }
             conn = DriverManager.getConnection(url, username, password);
 
             System.out.println("Connection Established : " + conn.getClientInfo());
@@ -137,7 +172,7 @@ public class JdbcUtil {
         return "";
     }
 
-    public void transfer(CommonModel enityModel, Connection connection) {
+    public void transfer(CommonEntityModel enityModel, Connection connection) {
         try {
             Statement statement = connection.createStatement();
 
@@ -158,7 +193,7 @@ public class JdbcUtil {
 
     }
 
-    public void transfer2(CommonModel enityModel, Connection connection) {
+    public void transfer2(CommonEntityModel enityModel, Connection connection) {
         try {
             Statement statement = connection.createStatement();
 
@@ -197,12 +232,77 @@ public class JdbcUtil {
 
     }
 
-    public void transfer(CommonModel enityModel) {
+    public void transfer(CommonEntityModel enityModel) {
         transfer(enityModel, conn);
     }
 
-    public void transfer2(CommonModel enityModel) {
+    public void transfer2(CommonEntityModel enityModel) {
         transfer2(enityModel, conn);
     }
 
+    public DBDriver getDbDriver() {
+        return dbDriver;
+    }
+
+    public void setDbDriver(DBDriver dbDriver) {
+        this.dbDriver = dbDriver;
+    }
+
+    public String getServerName() {
+        return serverName;
+    }
+
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
+    }
+
+    public String getPortNumber() {
+        return portNumber;
+    }
+
+    public void setPortNumber(String portNumber) {
+        this.portNumber = portNumber;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+    
+    
 }

@@ -2,62 +2,94 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.latlab.common.model;
+package com.latlab.common.dateutils;
 
-import com.latlab.common.utils.DateTimeUtils;
+import com.latlab.common.constants.Month;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
-public class DateRange implements Serializable {
+/**
+ *
+ * @author Seth Billy
+ */
+public class DateRange implements Serializable
+{
 
-    static DateRange getNextFromOrdinal(int ordinal) {
+    
+    static DateRange getNextFromOrdinal(int ordinal)
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     private Date fromDate;
     private Date toDate;
     private int year;
     private Period period;
-
+    
     private String rangeDescription;
-
-    public static DateRange sameDayRange(Date valueDate) {
+    
+    public static DateRange sameDayRange(Date valueDate)
+    {
         return new DateRange(valueDate, valueDate);
     }
-
-    public static DateRange yearToDate(Date valueDate) {
+    public static DateRange yearToDate(Date valueDate)
+    {
         int year = DateTimeUtils.getYearInDate(valueDate);
-        return new DateRange(DateTimeUtils.parseDate("0101" + year, "ddMMyyyy"), valueDate);
+        return new DateRange(DateTimeUtils.parseDate("0101"+year, "ddMMyyyy"), valueDate);
     }
+    
+    public static DateRange yearToDate(int year)
+    {
+        DateRange dateRange = new DateRange();
+        dateRange.setFromDate(DateTimeUtils.parseDate("0101" + year, "ddMMyyyy"));
+        dateRange.setToDate(DateTimeUtils.parseDate("3112" + year, "ddMMyyyy"));
 
-    public void cleanTime() {
+        return dateRange;
+    }
+    
+    public static DateRange getDateRange(Month month, int year)
+    {
+        MonthPeriod monthPeriod = new MonthPeriod(month, year);
+        monthPeriod.findDates();
+        DateRange dateRange = monthPeriod.getDatePeriod();
+        return dateRange;
+    }
+    
+    public void cleanTime()
+    {
         fromDate = DateTimeUtils.removeTimeFromDate(fromDate);
         toDate = DateTimeUtils.removeTimeFromDate(toDate);
     }
-
-    public Date previousDateOfFromDate() {
-        if (fromDate == null) {
+    
+    public Date previousDateOfFromDate()
+    {
+        if(fromDate == null)
+        {
             return null;
         }
-
+        
         return new DateTime(fromDate).minusDays(1).toDate();
     }
-
-    public boolean validRangeSet() {
-        return fromDate != null && toDate != null;
+    
+    
+    public boolean validRangeSet()
+    {
+        return fromDate!= null && toDate !=null;
     }
-
-    public DateRange() {
+    
+    public DateRange()
+    {
     }
-
-    public DateRange(Period period) {
+    
+    public DateRange(Period period)
+    {
         updateWithPeriod(period);
     }
-
-    private static Date getCalendarFromTime(int calField, int value) {
+    
+     private static Date getCalendarFromTime(int calField, int value) {
         Calendar cal = Calendar.getInstance();
         cal.add(calField, value);
         cal.set(Calendar.HOUR, 0);
@@ -88,104 +120,127 @@ public class DateRange implements Serializable {
         return cal.getTime();
     }
 
-    public DateRange(Date fromDate, Date toDate) {
+    
+    public DateRange(Date fromDate, Date toDate)
+    {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
-
-    public DateRange(DateRange dateRange) {
+    
+    public DateRange(DateRange dateRange)
+    {
         fromDate = dateRange.fromDate;
         toDate = dateRange.toDate;
     }
-
-    public DateRange(Period rangeOption, int year, Date fromDate, Date toDate) {
+    
+    public DateRange(Period rangeOption, int year , Date fromDate, Date toDate)
+    {
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.period = rangeOption;
         this.year = year;
     }
-
-    public void setDateRange(DateRange dateRange) {
+    
+    public void setDateRange(DateRange dateRange)
+    {
         fromDate = dateRange.fromDate;
         toDate = dateRange.toDate;
     }
-
-    public String getDateRangeNarration() {
-        if (fromDate == null && toDate == null) {
+    
+    public String getDateRangeNarration()
+    {
+        if(fromDate == null && toDate == null)
             return "";
-        }
-
-        if (fromDate == null) {
-            return " Inception to " + DateTimeUtils.formatDate(toDate, "dd/MM/yyyy");
-        }
-
-        if (toDate == null) {
-            return "From " + DateTimeUtils.formatDate(fromDate, "dd/MM/yyyy");
-        }
-
+        
+        if(fromDate == null)
+            return " Inception to "+DateTimeUtils.formatDate(toDate, "dd/MM/yyyy");
+        
+        if(toDate == null)
+            return "From "+DateTimeUtils.formatDate(fromDate, "dd/MM/yyyy");
+        
         String narration = DateTimeUtils.formatDate(fromDate, "dd/MM/yyyy")
-                + " to " + DateTimeUtils.formatDate(toDate, "dd/MM/yyyy");
-
+                +" to " + DateTimeUtils.formatDate(toDate, "dd/MM/yyyy");
+        
+        
 //        fromDate = DateTimeUtils.removeTimeFromDate(fromDate);
 //        toDate = DateTimeUtils.removeTimeFromDate(toDate);
-        if (fromDate.equals(toDate)) {
+        
+        if(fromDate.equals(toDate))
+        {
             return DateTimeUtils.formatDate(fromDate, "dd/MM/yyyy");
         }
-
+        
+        
         return narration;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return getDateRangeNarration();
     }
 
-    public String getRangeDescription() {
+    public String getRangeDescription()
+    {
         return rangeDescription;
     }
 
-    public void setRangeDescription(String rangeDescription) {
+    public void setRangeDescription(String rangeDescription)
+    {
         this.rangeDescription = rangeDescription;
     }
 
-    public Date getFromDate() {
+    
+    
+    public Date getFromDate()
+    {
         return fromDate;
     }
 
-    public void setFromDate(Date fromDate) {
+    public void setFromDate(Date fromDate)
+    {
         this.fromDate = fromDate;
     }
 
-    public Date getToDate() {
+    public Date getToDate()
+    {
         return toDate;
     }
 
-    public void setToDate(Date toDate) {
+    public void setToDate(Date toDate)
+    {
         this.toDate = toDate;
     }
-
-    public void updateWithPeriod(Period period) {
-        if (period == null) {
+    
+    public void updateWithPeriod(Period period)
+    {
+        if(period == null)
+        {
             return;
         }
         setDateRange(getDateRange(period));
     }
-
-    public static DateRange getDateRange(Period rangeOption) {
+    
+    public static DateRange getDateRange(Period rangeOption)
+    {
         return getDateRange(rangeOption, new Date());
     }
-
-    public static DateRange getDateRange(Period rangeOption, Date valueDate) {
-        if (valueDate == null) {
-            valueDate = new Date();
-        }
-
+    
+    
+    public static DateRange getDateRange(Period rangeOption, Date valueDate)
+     {
+         if(valueDate == null)
+         {
+             valueDate = new Date();
+         }
+         
         DateRange dateRange = new DateRange();
         DateMidnight midnight = null;
         DateTime dateTime = new DateTime(valueDate);
 //        int year = dateTime.getYear();
-
-        switch (rangeOption) {
+        
+        switch (rangeOption) 
+        {
 //            case TODAY:
 //                dateRange.setFromDate(new DateMidnight().toDate());
 //                dateRange.setToDate(new DateTime().hourOfDay().withMaximumValue().minuteOfDay().withMaximumValue().secondOfMinute().withMaximumValue().toDate());
@@ -250,7 +305,7 @@ public class DateRange implements Serializable {
 //                dateRange.setFromDate(midnight.toDate());
 //                dateRange.setToDate(midnight.plusMonths(11).withDayOfMonth(31).toDate());
 //                break;
-
+            
             case TODAY:
                 dateRange.setFromDate(new DateMidnight(valueDate).toDate());
                 dateRange.setToDate(new DateTime(valueDate).hourOfDay().withMaximumValue().minuteOfDay().withMaximumValue().secondOfMinute().withMaximumValue().toDate());
@@ -289,9 +344,9 @@ public class DateRange implements Serializable {
             case THIS_MONTH:
                 midnight = new DateMidnight(valueDate);
                 midnight = midnight.withDayOfMonth(1);
-
+                
                 int interva = midnight.dayOfMonth().getMaximumValue();
-
+                
                 dateRange.setFromDate(midnight.toDate());
                 dateRange.setToDate(midnight.withDayOfMonth(interva).toDate());
 //                dateRange.setToDate(valueDate);
@@ -323,7 +378,8 @@ public class DateRange implements Serializable {
             case THIS_QUARTER:
 //                DateRange currentQuarter = PeriodUtils.getQuarterDate(valueDate);
                 dateRange = PeriodUtils.getQuarterDate(valueDate);
-                if (dateRange.getToDate().after(valueDate)) {
+                if(dateRange.getToDate().after(valueDate))
+                {
                     dateRange.setToDate(valueDate);
                 }
 //                dateRange.setFromDate(currentQuarter.getFromDate());
@@ -351,12 +407,13 @@ public class DateRange implements Serializable {
                 dateRange.setFromDate(midnight.toDate());
                 dateRange.setToDate(midnight.plusMonths(11).withDayOfMonth(31).toDate());
                 break;
-            case NEXT_YEAR:
+            case NEXT_YEAR:               
                 dateRange.setFromDate(new DateMidnight(valueDate).plusYears(1).monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().toDate());
                 dateRange.setToDate(new DateTime(valueDate).plusYears(1).monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue().hourOfDay().withMaximumValue().minuteOfDay().withMaximumValue().toDate());
                 break;
-
-            //extras
+                
+                
+                //extras
             case A_WEEK_AGO:
                 dateRange.setToDate(dateTime.toDate());
                 dateRange.setFromDate(dateTime.minusWeeks(1).toDate());
@@ -367,113 +424,132 @@ public class DateRange implements Serializable {
                 break;
         }
         return dateRange;
-    }
-
-    public String getDateRangeQuery(String field, DateRange dateRange) {
+     }
+    
+    
+    
+    public String getDateRangeQuery(String field, DateRange dateRange)
+    {
         String ss = "";
-        try {
-            if (dateRange != null) {
-                if (dateRange.getFromDate() != null) {
+        try
+        {
+            if(dateRange != null)
+            {
+                if(dateRange.getFromDate() != null)
+                {
                     ss += " AND " + field + " >= '" + DateTimeUtils.formatDate(dateRange.getFromDate(), "yyyy-MM-dd") + "' ";
                 }
-                if (dateRange.getToDate() != null) {
+                if(dateRange.getToDate() != null)
+                {
                     ss += " AND " + field + " <= '" + DateTimeUtils.formatDate(dateRange.getToDate(), "yyyy-MM-dd") + "' ";
                 }
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
         }
         return ss;
     }
-
-    public String getDateRangeQuery(String field) {
+    public String getDateRangeQuery(String field)
+    {
         String ss = "";
-        try {
-
-            if (getFromDate() != null) {
-                ss += field + " >= '" + DateTimeUtils.formatDate(getFromDate(), "yyyy-MM-dd") + "' ";
-            }
-            if (getToDate() != null) {
-                if (fromDate != null) {
-                    ss += " AND ";
+        try
+        {
+            
+                if(getFromDate() != null)
+                {
+                    ss += field + " >= '" + DateTimeUtils.formatDate(getFromDate(), "yyyy-MM-dd") + "' ";
                 }
-
-                ss += field + " <= '" + DateTimeUtils.formatDate(getToDate(), "yyyy-MM-dd") + "' ";
-            }
-
-        } catch (Exception e) {
+                if(getToDate() != null)
+                {
+                    if(fromDate != null)
+                    {
+                        ss += " AND ";
+                    }
+                    
+                    ss += field + " <= '" + DateTimeUtils.formatDate(getToDate(), "yyyy-MM-dd") + "' ";
+                }
+                
+        } 
+        catch (Exception e) 
+        {
         }
         return ss;
     }
-
-    public static DateRange getQuarterRange(int quarter, int refYear) {
+    
+    public static DateRange getQuarterRange(int quarter, int refYear)
+    {
         DateMidnight refDate = new DateMidnight();
-
-        if (refYear > 0) {
+        
+        if(refYear > 0)
+        {
             refDate = refDate.withYear(refYear);
         }
-
+        
         int add = 1;
-
-        switch (quarter) {
-            case 1:
-                add = 1;
-                break;
-            case 2:
-                add = 4;
-                break;
-            case 3:
-                add = 7;
-                break;
-            case 4:
-                add = 10;
-                break;
+        
+        switch(quarter)
+        {
+            case 1 : add = 1; break;
+            case 2 : add = 4; break;
+            case 3 : add = 7; break;
+            case 4 : add = 10; break;
         }
-
+        
         refDate = refDate.withMonthOfYear(add).withDayOfMonth(1);
         Date startDate = refDate.toDate();
 //        refDate = refDate.plusMonths(2).withDayOfMonth(refDate.dayOfMonth().getMaximumValue());
         refDate = refDate.withDayOfMonth(refDate.dayOfMonth().getMaximumValue()).plusMonths(2);
         Date endDate = new DateTime(refDate.toDateTime()).withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toDate();
-
+        
         return new DateRange(startDate, endDate);
     }
 
-    public boolean isWithinRange(Date valueDate) {
-        if (valueDate == null) {
+    public boolean isWithinRange(Date valueDate)
+    {
+        if(valueDate == null)
+        {
             return false;
         }
-
+        
         Date date = DateTimeUtils.removeTimeFromDate(valueDate);
-
-        if (date.equals(fromDate) || date.equals(toDate)) {
+        
+        if(date.equals(fromDate) || date.equals(toDate))
+        {
             return true;
         }
-
+        
         return date.after(fromDate) && date.before(toDate);
     }
-
-    public DateRange previous() {
+    
+    public DateRange previous()
+    {
         DateRange previousDateRante = new DateRange();
         previousDateRante.setFromDate(fromDate);
         previousDateRante.setToDate(new DateTime(getToDate()).minusDays(1).toDate());
-
+        
         return previousDateRante;
     }
-
-    public Period getPeriod() {
+    
+    public Period getPeriod()
+    {
         return period;
     }
 
-    public void setPeriod(Period period) {
+    public void setPeriod(Period period)
+    {
         this.period = period;
     }
 
-    public int getYear() {
+    public int getYear()
+    {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(int year)
+    {
         this.year = year;
     }
+    
     
 }
