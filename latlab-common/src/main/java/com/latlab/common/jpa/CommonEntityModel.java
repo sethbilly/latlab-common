@@ -27,7 +27,6 @@ import javax.persistence.Transient;
 public class CommonEntityModel implements Serializable
 {
 
-    int left, right = 0;
     private static final long serialVersionUID = 1L;
 
     public static final String _id = "id";
@@ -55,7 +54,7 @@ public class CommonEntityModel implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModifiedDate = new Date();
     
-    public static final String _deleted = "deleted";
+    public static final String _deletedAt = "deletedAt";
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt = null;
